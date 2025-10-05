@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 220 30% 98%;
+    --foreground: 220 15% 15%;
+
+    --card: 220 40% 98%;
+    --card-foreground: 220 15% 15%;
+
+    --popover: 220 40% 98%;
+    --popover-foreground: 220 15% 15%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 220 40% 98%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 15% 15%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 142 71% 45%;
+    --accent-foreground: 220 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 40% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262 83% 58%;
+
+    --radius: 0.75rem;
+
+    /* Enhanced gradient colors */
+    --gradient-primary: 262 83% 58%;
+    --gradient-secondary: 142 71% 45%;
+    --gradient-accent: 31 81% 56%;
+    --gradient-purple: 262 83% 58%;
+    --gradient-blue: 221 83% 53%;
+    --gradient-pink: 330 81% 60%;
+    --gradient-orange: 31 81% 56%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222 84% 5%;
+    --foreground: 220 40% 98%;
+
+    --card: 222 84% 5%;
+    --card-foreground: 220 40% 98%;
+
+    --popover: 222 84% 5%;
+    --popover-foreground: 220 40% 98%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 222 84% 5%;
+
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 220 40% 98%;
+
+    --muted: 217 32% 17%;
+    --muted-foreground: 220 10% 65%;
+
+    --accent: 142 71% 45%;
+    --accent-foreground: 222 84% 5%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 220 40% 98%;
+
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 262 83% 58%;
+
+    /* Enhanced gradient colors for dark mode */
+    --gradient-primary: 262 83% 58%;
+    --gradient-secondary: 142 71% 45%;
+    --gradient-accent: 31 81% 56%;
+    --gradient-purple: 262 83% 58%;
+    --gradient-blue: 221 83% 53%;
+    --gradient-pink: 330 81% 60%;
+    --gradient-orange: 31 81% 56%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Custom animations for enhanced user experience */
+  @keyframes scale-in {
+    0% { 
+      opacity: 0; 
+      transform: scale(0.95); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+  }
+
+  @keyframes slide-in-up {
+    0% { 
+      opacity: 0; 
+      transform: translateY(20px); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out;
+  }
+
+  .animate-slide-in-up {
+    animation: slide-in-up 0.5s ease-out;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  /* Enhanced hover effects for cards and images */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Image overlay effects */
+  .image-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .image-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .image-overlay:hover::after {
+    opacity: 1;
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
