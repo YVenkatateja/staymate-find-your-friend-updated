@@ -20,6 +20,7 @@ import Safety from "./pages/Safety";
 import NotFound from "./pages/NotFound";
 import ThankYou from "./pages/ThankYou";
 import ViewNeedRoommate from "./pages/ViewNeedRoommate";
+import NeedRoommateDetail from "./pages/NeedRoommateDetail";    
 import ViewWantsRoommate from "./pages/ViewWantsRoommate";
 import ViewRentals from "./pages/ViewRentals";
 import AboutUs from "./pages/AboutUs";
@@ -50,8 +51,10 @@ const App = () => (
           <Route path="/need-roommate/register" element={<RegisterNeedRoommate />} />
           <Route path="/wants-to-be-roommate" element={<WantsToBeRoommate />} />
           <Route path="/wants-to-be-roommate/register" element={<RegisterWantsRoommate />} />
+          <Route path="/wants-to-be-roommate/browse" element={<ViewWantsRoommate />} />
           <Route path="/rentals" element={<Rentals />} />
           <Route path="/rentals/register" element={<RegisterRentals />} />
+          <Route path="/rentals/browse" element={<ViewRentals />} />
           <Route path="/housing-solutions" element={<HousingSolutions />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -59,9 +62,10 @@ const App = () => (
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/safety" element={<Safety />} />
           <Route path="/thank-you" element={<ThankYou />} />
-          <Route path="/view/need-roommate" element={<ViewNeedRoommate />} />
-          <Route path="/view/wants-roommate" element={<ViewWantsRoommate />} />
-          <Route path="/view/rentals" element={<ViewRentals />} />
+          <Route path="/view-need-roommate" element={<ViewNeedRoommate />} />
+          <Route path="/needroommates/:id" element={<NeedRoommateDetail />} /> 
+          <Route path="/view-wants-roommate" element={<ViewWantsRoommate />} />
+          <Route path="/view-rentals" element={<ViewRentals />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/contact" element={<ContactUs />} />
