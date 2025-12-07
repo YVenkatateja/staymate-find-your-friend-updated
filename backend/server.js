@@ -27,10 +27,27 @@ app.use((req, res, next) => {
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // ✅ MongoDB Connection
-mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("✅ MongoDB Connected!"))
-  .catch((err) => console.error("❌ Mongo Error:", err));
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
+  console.error("❌ MONGO_URI not set in environment");
+} else {
+  mongoose
+    .connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => console.log("✅ MongoDB connected"))
+    .catch((err) => {
+      console.error("❌ MongoDB connection error:", err);
+      // do NOT exit here in case you want server to still respond to health checks
+    });
+}
+app.get("/_health", (req, res) => {
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
+    return res.status(200).json({ status: "ok", mongo: "connected" });
+  }
+  return res.status(200).json({ status: "ok", mongo: "not-connected" });
+});
 
 // -------- JWT Helper --------
 function generateToken(user) {
@@ -555,4 +572,6 @@ app.get("*", (req, res) => {
 
 // -------- Start server ---------
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`🚀 Server running on http://localhost:${PORT}`)
+);
