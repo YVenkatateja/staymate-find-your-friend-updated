@@ -131,7 +131,7 @@ const NeedRoommate = () => {
                 <Button 
                   size="lg" 
                   className="px-8 py-3 text-lg"
-                  onClick={() => navigate(selectedOption === "register" ? "/need-roommate/register" : "/need-roommate/browse")}
+                  onClick={() => navigate(selectedOption === "register" ? "/need-roommate/register" : "/view-need-roommate")}
                 >
                   {selectedOption === "register" ? "Start Registration" : "Browse Profiles"}
                   <ArrowRight className="ml-2 h-5 w-5" />

@@ -256,19 +256,74 @@ const RegistrationForm = ({ type, title, description, backPath }: RegistrationFo
     setPropertyImages(prev => prev.filter((_, i) => i !== index));
   };
 
-  const onSubmit = (values: any) => {
-    console.log("Form submitted:", { 
-      ...values, 
-      preferences: selectedPreferences, 
-      profileImage, 
-      propertyImages,
-      type 
-    });
-    // Here you would typically send the data to your backend
-    
-    // Navigate to thank you page
-    navigate(`/thank-you?type=${type}`);
+  // -------- submit -> POST to backend ----------
+const apiBase = (import.meta.env.VITE_API_URL as string) || "http://localhost:5000";
+
+const onSubmit = async (values: any) => {
+  const payload: any = {
+    name: values.fullName || "",
+    email: values.email || "",
+    phone: values.phone || "",
+    age: values.age ? Number(values.age) : undefined,
+    gender: values.gender || undefined,
+    location: values.location || undefined,
+    currentLiving: values.currentLiving,
+    propertyType: values.propertyType,
+    rentBudget: values.rentBudget,
+    availableFrom: values.availableFrom,
+    roomDescription: values.roomDescription || values.aboutMe || "",
+    roommatePreference: values.roommatePreference || values.roommateGenderPreference || undefined,
+    customRoommatePreference: values.customRoommatePreference || values.customGenderPreference,
+    furnishingStatus: values.furnishingStatus,
+    depositAmount: values.depositAmount || values.securityDeposit,
+    bedrooms: values.bedrooms,
+    bathrooms: values.bathrooms,
+    rentAmount: values.rentAmount,
+    propertyAddress: values.propertyAddress,
+    leaseDuration: values.leaseDuration,
+    preferences: selectedPreferences,
+    profileImage,
+    propertyImages,
+    type
   };
+
+  Object.keys(payload).forEach((k) => { if (payload[k] === undefined) delete payload[k]; });
+
+  // <-- THIS IS THE CRITICAL LINE: selects correct endpoint based on form `type`
+  const endpoint =
+    type === "need-roommate" ? "/needroommates" :
+    type === "wants-roommate" ? "/wantsroommates" :
+    type === "rentals" ? "/rentals" :
+    "/needroommates";
+
+  try {
+    console.log("Posting to", apiBase + endpoint, "payload:", payload);
+
+    const res = await fetch(`${apiBase}${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const text = await res.text();
+    let jsonBody: any = null;
+    try { jsonBody = text ? JSON.parse(text) : null; } catch (e) { /* ignore */ }
+
+    if (!res.ok) {
+      const msg = jsonBody?.error || jsonBody?.message || `Server responded ${res.status}`;
+      console.error("Server error response:", jsonBody || text);
+      throw new Error(msg);
+    }
+
+    console.log("Saved listing:", jsonBody);
+    navigate(`/thank-you?type=${type}`);
+  } catch (err: any) {
+    console.error("Submit failed:", err);
+    alert("Failed to submit registration: " + (err?.message || err));
+  }
+};
+
+
 
   const renderCategorySpecificFields = () => {
     if (type === "need-roommate") {

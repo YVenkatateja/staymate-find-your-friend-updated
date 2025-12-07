@@ -137,11 +137,11 @@ const FindCompanions = () => {
                       onClick={(e) => {
                         e.stopPropagation();
                         if (category.id === "need-roommate") {
-                          navigate("/view/need-roommate");
+                          navigate("/view-need-roommate");
                         } else if (category.id === "be-roommate") {
-                          navigate("/view/wants-roommate");
+                          navigate("/view-wants-roommate");
                         } else if (category.id === "rentals") {
-                          navigate("/view/rentals");
+                          navigate("/view-rentals");
                         }
                       }}
                     >
